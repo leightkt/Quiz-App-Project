@@ -13,7 +13,8 @@ var state = {
 		c: "Incorrect",
 		d: "Incorrect",
 		rightAnswer: "Correct",
-		hidden: false
+		hidden: false,
+		button: "on"
 	},
 	{
 		id: "Question2",
@@ -23,7 +24,8 @@ var state = {
 		c: "Incorrect",
 		d: "Incorrect",
 		rightAnswer: "Correct",
-		hidden: true
+		hidden: true,
+		button: "off"
 	},
 	{
 		id: "Question3",
@@ -33,7 +35,8 @@ var state = {
 		c: "Incorrect",
 		d: "Incorrect",
 		rightAnswer: "Correct",
-		hidden: true
+		hidden: true,
+		button: "off"
 	},
 	{
 		id: "Question4",
@@ -43,7 +46,8 @@ var state = {
 		c: "Incorrect",
 		d: "Incorrect",
 		rightAnswer: "Correct",
-		hidden: true
+		hidden: true,
+		button: "off"
 	},
 	{
 		id: "Question5",
@@ -53,7 +57,8 @@ var state = {
 		c: "Incorrect",
 		d: "Incorrect",
 		rightAnswer: "Correct",
-		hidden: true
+		hidden: true,
+		button: "off"
 	}
 	]
 };
@@ -134,9 +139,30 @@ var updateHiddenClass = function(divId, state){
 		};
 }
 
-var disableButton = function(divId){
-	$('#'+divId).find(':button').attr("disabled", true);
+var disableButton = function(state){
+	state.questions.map(function(question){
+		if (question.button === "off") {
+			$('#'+question.id).find(':button').attr("disabled", true);
+		}
+	});
 }
+var updateDisableButton = function(divId, state){
+	for(var i = 0; i < state.questions.length-1; i++){
+			if (state.questions[i].id === divId){
+			state.questions[i+1].button = "on";
+			state.questions[i].button = "off";
+			}
+		};
+}
+
+//fix add Restart link once all questions have been answered
+
+// var addRestartLink = function(state){
+// 	console.log(state.scoreInfo.question);
+// 	if (state.scoreInfo.question = 6){
+// 		$('#restart').removeClass("hidden");
+// 	}
+// }
 
 var nextQuestionAppear = function(answer, divId, state){
 	var checkIt = noSkippy(answer);
@@ -144,8 +170,10 @@ var nextQuestionAppear = function(answer, divId, state){
 		questionValidate(answer, divId, state);
 		updateHiddenClass(divId, state);
 		renderQuestions(state, $('#drakeQuestions'));
-		disableButton(divId);
+		updateDisableButton(divId, state);
+		disableButton(state);
 		hideRemaining(state);
+		// addRestartLink(state);	
 	}
 };
 
@@ -182,10 +210,14 @@ $(function(){
 })
 
 $(function(){
-	var x = 0;
 	footerInfo(state, $('footer'));
 })
 
 $(function(){
 	checkAnswer();
 })
+
+$(function(){
+	addRestartLink(state);
+})
+
