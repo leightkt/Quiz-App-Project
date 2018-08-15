@@ -134,12 +134,17 @@ var updateHiddenClass = function(divId, state){
 		};
 }
 
+var disableButton = function(divId){
+	$('#'+divId).find(':button').attr("disabled", true);
+}
+
 var nextQuestionAppear = function(answer, divId, state){
 	var checkIt = noSkippy(answer);
 	if (checkIt === true) {
 		questionValidate(answer, divId, state);
 		updateHiddenClass(divId, state);
 		renderQuestions(state, $('#drakeQuestions'));
+		disableButton(divId);
 		hideRemaining(state);
 	}
 };
@@ -147,8 +152,11 @@ var nextQuestionAppear = function(answer, divId, state){
 var footerInfo = function (state, element) {
 		var numCorrect = state.scoreInfo.correct; 
 		var numIncorrect = state.scoreInfo.incorrect; 
-		var numQuestion = state.scoreInfo.question;
-		//add numQuestion < 6 validation 
+		if (state.scoreInfo.question < 6) {
+			var numQuestion = state.scoreInfo.question;
+		} else {
+			var numQuestion = 5; 
+		}
 		var scoreHTML = '<h4>'+ numCorrect + ' Correct | ' + numIncorrect + ' Incorrect</h4>\
 						<h4>Question '+ numQuestion + ' out of 5</h4>';
     element.html(scoreHTML);
@@ -162,8 +170,6 @@ function checkAnswer(){
 		var divId = $(this).closest("div").attr("id");
 		nextQuestionAppear(answer, divId, state);
 		footerInfo(state, $('footer'));
-				//disable button so cannot resubmit- fix this
-		$(this).addClass("hidden");
 	});
 }
 
