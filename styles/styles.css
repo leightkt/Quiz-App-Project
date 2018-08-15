@@ -1,0 +1,12 @@
+.question {
+  display: block;
+  color: grey;
+  font-style: italic;
+  font-size: 20px;
+  border: 1px solid grey;
+}
+
+.hidden {
+  display: none;
+
+}
