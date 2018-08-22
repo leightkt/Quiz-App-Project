@@ -6,52 +6,27 @@ var state = {
 	questions: [
 	{
 		text: "What is Drake's real name?",
-		answers: {
-		a: "Trevor George Smith Jr.",
-		b: "Clifford Joseph Harris Jr.",
-		c: "Aubrey Graham",
-		d: "Andre Romelle Young"
-		},
+		answers: ["Trevor George Smith Jr." , "Clifford Joseph Harris Jr." , "Aubrey Graham" , "Andre Romelle Young"],
 		rightAnswer: "Aubrey Graham"
 	},
 	{
 		text: "What teen drama television series did Drake appear in during the early 2000s?",
-		answers: {
-		a: "Degrassi: The Next Generation",
-		b: "The O.C.",
-		c: "Gossip Girl",
-		d: "One Tree Hill"
-		},
+		answers: ["Degrassi: The Next Generation" , "The O.C." , "Gossip Girl" , "One Tree Hill"],
 		rightAnswer: "Degrassi: The Next Generation"
 	},
 	{
 		text: "What is the name of Drake's debut studio album?",
-		answers: {
-		a: "Pay Me Yesterday",
-		b: "Ask me Now",
-		c: "Call Me Sometime",
-		d: "Thank Me Later"
-		},
+		answers: ["Pay Me Yesterday" , "Ask me Now" , "Call Me Sometime" , "Thank Me Later"],
 		rightAnswer: "Thank Me Later"
 	},
 	{
 		text: "Where was Drake born?",
-		answers: {
-		a: "Québec City, Québec",
-		b: "Vancouver, British Columbia",
-		c: "Toronto, Ontario",
-		d: "Oakland, California"
-		},
+		answers: ["Québec City, Québec" , "Vancouver, British Columbia" , "Toronto, Ontario" , "Oakland, California"],
 		rightAnswer: "Toronto, Ontario"
 	},
 	{
 		text: "What is Drake's Instagram handle?",
-		answers: {
-		a: "theRealDrake",
-		b: "champagnepapi",
-		c: "Drizzy4Rizzy",
-		d: "drake"
-		},
+		answers: ["theRealDrake" , "champagnepapi" , "Drizzy4Rizzy" , "drake"],
 		rightAnswer: "champagnepapi"
 	}
 	]
@@ -117,21 +92,24 @@ var restartQuiz = function(){
 	$("footer").empty();
 }
 
+var renderAnswers = function(state, i){
+	var inputHTML = "";
+	state.questions[i].answers.forEach(function(answer) {
+		inputHTML += '<input type="radio" name="currentQuestion" value="'+answer+'"><label>'+answer+'</label><br>';
+	});
+	console.log(inputHTML);
+	return inputHTML;
+}
+
 var renderQuestions = function(state, element, i){
 	if (i < state.questions.length){
+		answerHTML = renderAnswers(state, i);
 	var itemsHTML = 
 			'<div class="col-12 question" id=' + i +'>\
        			<fieldset id=' + i + '>\
-       			<h3>'+ state.questions[i].text + '</h3>\
-       			<input type="radio" name="currentQuestion" value="'+state.questions[i].answers.a+'">\
-				<label for="a">'+state.questions[i].answers.a+'</label><br>\
-				<input type="radio" name="currentQuestion" value="'+state.questions[i].answers.b+'">\
-				<label for="b">'+state.questions[i].answers.b+'</label><br>\
-				<input type="radio" name="currentQuestion" value="'+state.questions[i].answers.c+'">\
-				<label for="c">'+state.questions[i].answers.c+'</label><br>\
-				<input type="radio" name="currentQuestion" value="'+state.questions[i].answers.d+'">\
-				<label for="d">'+state.questions[i].answers.d+'</label><br>\
-       			<button type="submit" class="js-check-answer check-answer">Check Answer</button>\
+       			<h3>'+ state.questions[i].text + '</h3>'
+       			+answerHTML+
+       			'<button type="submit" class="js-check-answer check-answer">Check Answer</button>\
 				</fieldset>\
 				</div>';
     element.html(itemsHTML);
@@ -182,9 +160,7 @@ function checkAnswer(){
 	$(document).on('click', 'button.js-check-answer', function(){
 		event.preventDefault();
 		var answer = $(this).closest("fieldset").find(":radio:checked").val();
-		console.log(answer);
 		var divId = $(this).closest("div").attr("id");
-		console.log(divId);
 		var i = parseInt($(this).closest("div").attr("id"));
 		nextQuestionAppear(answer, divId, state, i);
 	});
