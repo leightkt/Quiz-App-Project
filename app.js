@@ -7,9 +7,9 @@ var state = {
 	{
 		text: "What is Drake's real name?",
 		answers: {
-		a: "Aubrey Graham",
+		a: "Trevor George Smith Jr.",
 		b: "Clifford Joseph Harris Jr.",
-		c: "Trevor George Smith Jr.",
+		c: "Aubrey Graham",
 		d: "Andre Romelle Young"
 		},
 		rightAnswer: "Aubrey Graham"
@@ -27,19 +27,19 @@ var state = {
 	{
 		text: "What is the name of Drake's debut studio album?",
 		answers: {
-		a: "Thank Me Later",
+		a: "Pay Me Yesterday",
 		b: "Ask me Now",
 		c: "Call Me Sometime",
-		d: "Pay Me Yesterday"
+		d: "Thank Me Later"
 		},
 		rightAnswer: "Thank Me Later"
 	},
 	{
 		text: "Where was Drake born?",
 		answers: {
-		a: "Toronto, Ontario",
+		a: "Québec City, Québec",
 		b: "Vancouver, British Columbia",
-		c: "Québec City, Québec",
+		c: "Toronto, Ontario",
 		d: "Oakland, California"
 		},
 		rightAnswer: "Toronto, Ontario"
@@ -47,8 +47,8 @@ var state = {
 	{
 		text: "What is Drake's Instagram handle?",
 		answers: {
-		a: "champagnepapi",
-		b: "theRealDrake",
+		a: "theRealDrake",
+		b: "champagnepapi",
 		c: "Drizzy4Rizzy",
 		d: "drake"
 		},
@@ -104,12 +104,14 @@ var questionValidate = function(answer, divId, state, i){
 
 var startDaQuiz = function(){
 	$(".js-start").addClass("hidden");
+	$("main").removeClass("hidden");
 	$("#js-quiz-main").removeClass("hidden");
 }
 
 var restartQuiz = function(){
 	$(".js-start").removeClass("hidden");
 	$("#js-quiz-main").addClass("hidden");
+	$("main").addClass("hidden");
 	$(".js-restart").addClass("hidden");
 	$("#js-answer-alert").empty();
 	$("footer").empty();
@@ -153,13 +155,14 @@ var footerInfo = function (state, element, i) {
 		var numCorrect = state.scoreInfo.correct; 
 		var numIncorrect = state.scoreInfo.incorrect; 
 		var numQuestion = i; 
-		if (i < state.questions.length) {
+		if (i <= state.questions.length) {
 			var numQuestion = i;
+			var scoreHTML = '<h4>Question '+ numQuestion + ' out of '+state.questions.length+'</h4>\
+					<h4>'+ numCorrect + ' Correct | ' + numIncorrect + ' Incorrect</h4>';
 		} else {
-			var numQuestion = state.questions.length;
+			var scoreHTML = '<h4>Your Final Score Is:\
+							<h4>'+ numCorrect + ' Correct | ' + numIncorrect + ' Incorrect</h4>';
 		};
-		var scoreHTML = '<h4>'+ numCorrect + ' Correct | ' + numIncorrect + ' Incorrect</h4>\
-						<h4>Question '+ numQuestion + ' out of '+state.questions.length+'</h4>';
 		element.html(scoreHTML);
 };
 
@@ -168,7 +171,6 @@ var footerInfo = function (state, element, i) {
 function startQuiz(){
 	$(document).on('click', 'button.js-start', function(){
 		event.preventDefault();
-		console.log("starting this bitch");
 		startDaQuiz();
 		var i = 0; 
 		renderQuestions(state, $('#drakeQuestions'), i);

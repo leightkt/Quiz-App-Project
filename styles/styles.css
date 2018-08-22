@@ -1,23 +1,76 @@
+* {
+	color: white;
+}
+
 .answer {
 	margin: auto;
-	color: white;
-	font-size: 20px;
+	font-size: 2vw;
 	text-align: center;
 }
 
 body {
+	background-attachment: fixed;
 	background-color: black;
 	background-image: url("pictures/drake-bw-background.jpg");
 	background-repeat: no-repeat;
-	background-attachment: fixed;
+}
+
+button {
+	background-color: rgb(65, 84, 114);
+	border: none;
+	color: white; 
+	font-family: 'Inconsolata', monospace;
+	font-size: 2vw; 
+	height: 7vw;
+	padding: 3vw;
+	width: 25vw;
+
 }
 
 button:focus {
 	background-color: white;
+	color: rgb(65, 84, 114);
 }
 
 button:hover {
 	background-color: white; 
+	color: rgb(65, 84, 114);
+}
+
+.check-answer {
+ 	margin-top: 5vw;
+ }
+
+fieldset {
+	border: none;
+	font-size: 1.5vw;
+	font-weight: bold;
+	margin: 0px, auto;
+}
+
+footer {
+	display: block;
+	margin: 1vw, auto;
+	text-align: center;
+	color: white;
+	font-family: 'Inconsolata', monospace;
+	font-size: 3.5vw;
+}
+
+h1 {
+	font-size: 4vw;
+}
+
+h2 {
+	font-size: 3.5vw;
+}
+
+header {
+	color: white;
+	font-family: 'Inconsolata', monospace;
+	padding-bottom: 5vw;
+	text-align: center;
+	
 }
 
 .hidden {
@@ -25,62 +78,44 @@ button:hover {
 
 }
 
-fieldset {
-	margin: 0px, auto;
-}
-
-footer {
-	display: block;
-	margin: 3em, auto;
-	text-align: center;
-	color: white;
-	font-family: 'Inconsolata', monospace;
-	font-size: 40px;
-}
-
-h1 {
-	font-size: 50px;
-}
-
-h2 {
-	font-size: 40px;
-}
-
-header {
-	border: 10px, solid, white;
-	color: white;
-	font-family: 'Inconsolata', monospace;
-	text-align: center;
-	padding-bottom: 25px;
-}
-
 input {
-	margin: 5px;
-	padding: 5px;
+	margin: 1vw;
+	padding: 1vw;
 }
 
+input[type='radio'] { 
+	transform: scale(1.5);
+}
 
-.question {
-  margin: 0px, auto;
-  text-align: center;
-  color: white;
-  font-style: italic;
-  font-size: 20px;
+label {
+	display: inline-block;
+	margin-bottom: 1vw;
 }
 
 main {
+	    background-color: rgba(65, 84, 114, 0.5);
+		margin: auto;  
+	    max-width: 80%;
+	    text-align: center;	 
+	    padding: 1vw;
 	    position: relative; 
-	    z-index: 1; 
-	    text-align: center;
-	    margin: auto;  
-	    max-width: 80%; 
-	    padding-left: 4.0em; 
-	    padding-right: 4.0em; 
-	    padding-top: 2.0em;
-	    padding-bottom: 8.0em; 
-	    background-color: rgba(247, 247, 247, 0.5); 
+	    z-index: 1;  
 	}
+
+.question {
+  color: white;
+  font-size: 3vw;
+  font-style: italic;
+  margin: 0px, auto;
+  text-align: center; 
+}
+
  
-.check-answer {
- 	margin-top: 25px;
+.restart-button {
+	display: block;
+	height: 8vw;
+ 	margin: auto;
  }
+
+
+
