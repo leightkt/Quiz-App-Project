@@ -2,71 +2,67 @@ var state = {
 	scoreInfo: {
 		correct: 0,
 		incorrect: 0,
-		question: 1
 	},
 	questions: [
 	{
-		id: "Question1",
-		text: "Question 1",
-		a: "Correct",
-		b: "Incorrect",
-		c: "Incorrect",
-		d: "Incorrect",
-		rightAnswer: "Correct",
-		hidden: false,
-		button: "on"
+		text: "What is Drake's real name?",
+		answers: {
+		a: "Aubrey Graham",
+		b: "Clifford Joseph Harris Jr.",
+		c: "Trevor George Smith Jr.",
+		d: "Andre Romelle Young"
+		},
+		rightAnswer: "Aubrey Graham"
 	},
 	{
-		id: "Question2",
-		text: "Question 2",
-		a: "Correct",
-		b: "Incorrect",
-		c: "Incorrect",
-		d: "Incorrect",
-		rightAnswer: "Correct",
-		hidden: true,
-		button: "off"
+		text: "What teen drama television series did Drake appear in during the early 2000s?",
+		answers: {
+		a: "Degrassi: The Next Generation",
+		b: "The O.C.",
+		c: "Gossip Girl",
+		d: "One Tree Hill"
+		},
+		rightAnswer: "Degrassi: The Next Generation"
 	},
 	{
-		id: "Question3",
-		text: "Question 3",
-		a: "Correct",
-		b: "Incorrect",
-		c: "Incorrect",
-		d: "Incorrect",
-		rightAnswer: "Correct",
-		hidden: true,
-		button: "off"
+		text: "What is the name of Drake's debut studio album?",
+		answers: {
+		a: "Thank Me Later",
+		b: "Ask me Now",
+		c: "Call Me Sometime",
+		d: "Pay Me Yesterday"
+		},
+		rightAnswer: "Thank Me Later"
 	},
 	{
-		id: "Question4",
-		text: "Question 4",
-		a: "Correct",
-		b: "Incorrect",
-		c: "Incorrect",
-		d: "Incorrect",
-		rightAnswer: "Correct",
-		hidden: true,
-		button: "off"
+		text: "Where was Drake born?",
+		answers: {
+		a: "Toronto, Ontario",
+		b: "Vancouver, British Columbia",
+		c: "Québec City, Québec",
+		d: "Oakland, California"
+		},
+		rightAnswer: "Toronto, Ontario"
 	},
 	{
-		id: "Question5",
-		text: "Question 5",
-		a: "Correct",
-		b: "Incorrect",
-		c: "Incorrect",
-		d: "Incorrect",
-		rightAnswer: "Correct",
-		hidden: true,
-		button: "off"
+		text: "What is Drake's Instagram handle?",
+		answers: {
+		a: "champagnepapi",
+		b: "theRealDrake",
+		c: "Drizzy4Rizzy",
+		d: "drake"
+		},
+		rightAnswer: "champagnepapi"
 	}
 	]
 };
 
-//functions that modify state
 var noSkippy = function(answer) {
 	if (!answer) {
-		alert ("please select an answer to continue");
+		$("#js-answer-alert").empty().append(
+			"<h4>Please select an answer to continue</h4>"
+			);
+
 		return false;
 	} else {
 		return true;
@@ -74,10 +70,16 @@ var noSkippy = function(answer) {
 };
 
 var answerAlert = function(wasItRight, checkAgainst){
+	$("#js-answer-alert").empty();
 	if (wasItRight === true) {
-		alert("Congrats! That was the correct answer");
+		$("#js-answer-alert").append(
+			"<h4>Congrats! That was the correct answer!</h4>"
+			);
 	} else {
-		alert("Sorry! The right answer was " +checkAgainst);
+
+		$("#js-answer-alert").append(
+			"<h4>Sorry! The correct answer is "+checkAgainst+"</h4>"
+			);
 	}
 }
 
@@ -92,132 +94,111 @@ var updateCorrectTotals = function(checkAgainst, answer, state){
 	return wasItRight;
 };
 
-var questionValidate = function(answer, divId, state){
-	for(var i = 0; i < state.questions.length; i++){
-			if (state.questions[i].id === divId){
-				var checkAgainst = state.questions[i].rightAnswer;
-				var wasItRight = updateCorrectTotals(checkAgainst, answer, state);
-				answerAlert(wasItRight, checkAgainst);
-				state.scoreInfo.question += 1;
-				console.log(state);
-			}
-
-		}
+var questionValidate = function(answer, divId, state, i){
+	var checkAgainst = state.questions[i].rightAnswer;
+	var wasItRight = updateCorrectTotals(checkAgainst, answer, state);
+	answerAlert(wasItRight, checkAgainst);
+	console.log(state);
 };
 
 
-//functions that render state
-var renderQuestions = function(state, element){
-	var itemsHTML = state.questions.map(function(question) {
-        return '<div class="row col-12 question" id=' + question.id +'>\
-       			<fieldset id=' + question.id + '>\
-				<h3>' + question.text + ' Text</h3>\
-					<input type="radio" name='+question.id+' value='+question.a+'>Correct<br>\
-					<input type="radio" name='+question.id+' value='+question.b+'>Incorrect<br>\
-					<input type="radio" name='+question.id+' value='+question.c+'>Incorrect<br>\
-					<input type="radio" name='+question.id+' value='+question.d+'>Incorrect<br>\
-					<button type="submit" class="js-check-answer">Check Answer</button>\
+var startDaQuiz = function(){
+	$(".js-start").addClass("hidden");
+	$("#js-quiz-main").removeClass("hidden");
+}
+
+var restartQuiz = function(){
+	$(".js-start").removeClass("hidden");
+	$("#js-quiz-main").addClass("hidden");
+	$(".js-restart").addClass("hidden");
+	$("#js-answer-alert").empty();
+	$("footer").empty();
+}
+
+var renderQuestions = function(state, element, i){
+	if (i < state.questions.length){
+	var itemsHTML = 
+			'<div class="col-12 question" id=' + i +'>\
+       			<fieldset id=' + i + '>\
+       			<h3>'+ state.questions[i].text + '</h3>\
+       			<input type="radio" name="currentQuestion" value="'+state.questions[i].answers.a+'">\
+				<label for="a">'+state.questions[i].answers.a+'</label><br>\
+				<input type="radio" name="currentQuestion" value="'+state.questions[i].answers.b+'">\
+				<label for="b">'+state.questions[i].answers.b+'</label><br>\
+				<input type="radio" name="currentQuestion" value="'+state.questions[i].answers.c+'">\
+				<label for="c">'+state.questions[i].answers.c+'</label><br>\
+				<input type="radio" name="currentQuestion" value="'+state.questions[i].answers.d+'">\
+				<label for="d">'+state.questions[i].answers.d+'</label><br>\
+       			<button type="submit" class="js-check-answer check-answer">Check Answer</button>\
 				</fieldset>\
 				</div>';
-    });
     element.html(itemsHTML);
-};
-
-var hideRemaining = function(state){
-	state.questions.map(function(question){
-		if (question.hidden === true) {
-			$('#'+question.id).addClass('hidden');
-		}
-	});
-}
-
-var updateHiddenClass = function(divId, state){
-	for(var i = 0; i < state.questions.length-1; i++){
-			if (state.questions[i].id === divId){
-			state.questions[i+1].hidden = false;
-			}
-		};
-}
-
-var disableButton = function(state){
-	state.questions.map(function(question){
-		if (question.button === "off") {
-			$('#'+question.id).find(':button').attr("disabled", true);
-		}
-	});
-}
-var updateDisableButton = function(divId, state){
-	for(var i = 0; i < state.questions.length-1; i++){
-			if (state.questions[i].id === divId){
-			state.questions[i+1].button = "on";
-			state.questions[i].button = "off";
-			}
-		};
-}
-
-//fix add Restart link once all questions have been answered
-
-// var addRestartLink = function(state){
-// 	console.log(state.scoreInfo.question);
-// 	if (state.scoreInfo.question = 6){
-// 		$('#restart').removeClass("hidden");
-// 	}
-// }
-
-var nextQuestionAppear = function(answer, divId, state){
-	var checkIt = noSkippy(answer);
-	if (checkIt === true) {
-		questionValidate(answer, divId, state);
-		updateHiddenClass(divId, state);
-		renderQuestions(state, $('#drakeQuestions'));
-		updateDisableButton(divId, state);
-		disableButton(state);
-		hideRemaining(state);
-		// addRestartLink(state);	
+	} else {
+		$("#drakeQuestions").empty();
+		$(".js-restart").removeClass("hidden");
 	}
 };
 
-var footerInfo = function (state, element) {
-		var numCorrect = state.scoreInfo.correct; 
-		var numIncorrect = state.scoreInfo.incorrect; 
-		if (state.scoreInfo.question < 6) {
-			var numQuestion = state.scoreInfo.question;
-		} else {
-			var numQuestion = 5; 
-		}
-		var scoreHTML = '<h4>'+ numCorrect + ' Correct | ' + numIncorrect + ' Incorrect</h4>\
-						<h4>Question '+ numQuestion + ' out of 5</h4>';
-    element.html(scoreHTML);
+var nextQuestionAppear = function(answer, divId, state, i){
+	var checkIt = noSkippy(answer);
+	if (checkIt === true) {
+		questionValidate(answer, divId, state, i);
+		i += 1; 
+		renderQuestions(state, $('#drakeQuestions'), i);
+		footerInfo(state, $('footer'), (i+1));
+	}
 };
 
+var footerInfo = function (state, element, i) {
+		var numCorrect = state.scoreInfo.correct; 
+		var numIncorrect = state.scoreInfo.incorrect; 
+		var numQuestion = i; 
+		if (i < state.questions.length) {
+			var numQuestion = i;
+		} else {
+			var numQuestion = state.questions.length;
+		};
+		var scoreHTML = '<h4>'+ numCorrect + ' Correct | ' + numIncorrect + ' Incorrect</h4>\
+						<h4>Question '+ numQuestion + ' out of '+state.questions.length+'</h4>';
+		element.html(scoreHTML);
+};
+
+
 //event listeners
+function startQuiz(){
+	$(document).on('click', 'button.js-start', function(){
+		event.preventDefault();
+		console.log("starting this bitch");
+		startDaQuiz();
+		var i = 0; 
+		renderQuestions(state, $('#drakeQuestions'), i);
+		footerInfo(state, $('footer'), (i+1));
+	});		
+}
+
 function checkAnswer(){
 	$(document).on('click', 'button.js-check-answer', function(){
 		event.preventDefault();
 		var answer = $(this).closest("fieldset").find(":radio:checked").val();
+		console.log(answer);
 		var divId = $(this).closest("div").attr("id");
-		nextQuestionAppear(answer, divId, state);
-		footerInfo(state, $('footer'));
+		console.log(divId);
+		var i = parseInt($(this).closest("div").attr("id"));
+		nextQuestionAppear(answer, divId, state, i);
 	});
 }
 
-$(function(){
-	renderQuestions(state, $('#drakeQuestions'));
-})
+function restartIt () {
+	$(document).on('click', 'button.js-restart-button', function(){
+		event.preventDefault();
+		restartQuiz();
+	});
+}
 
-$(function(){
-	hideRemaining(state);
-})
 
-$(function(){
-	footerInfo(state, $('footer'));
-})
+startQuiz();
+checkAnswer();
+restartIt();
 
-$(function(){
-	checkAnswer();
-})
 
-$(function(){
-	addRestartLink(state);
-})
 

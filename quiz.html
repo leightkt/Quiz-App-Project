@@ -3,21 +3,38 @@
 <head>
 	<title>Katlyn's Drake Quiz</title>
 	<meta charset="utf-8" name="description" content="a Drake Quiz">
-	<link rel="stylesheet" type="text/css" href="styles/float-grid.css">
 	<link rel="stylesheet" type="text/css" href="styles/styles.css">
+	<link rel="stylesheet" type="text/css" href="styles/float-grid.css">
+	<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
 </head>
 <body>
-	<div class="row col-12">
-		<header>Welcome to the Drake Quiz!</header>
+	<header class="row">
+		<h1>Welcome to the Drake Quiz!<h1>
+		<h2 class="js-start">Click Here to Start Quiz:</h2>
+		<button type="submit" id="js-start-quiz" class="js-start">Start Quiz</button>
+	</header>
+	<main>
+		<div class="row">
+			<div class="col-6 answer" id="js-answer-alert">
+			</div>
+		</div>
+		<div class="row">
+			<div class="hidden col-12" id="js-quiz-main">
+				<form action="" id="drakeQuestions">			
+				</form>
+			</div>
+		</div>
+	</main>
+	<div class="row">
+		<div class="col-12">
+			<footer>
+			</footer>
+		</div>
 	</div>
-		<form action="" id="drakeQuestions">			
-		</form>
-	<div class="row col-12">
-		<footer>
-		</footer>
-	</div>
-	<div class="row col-12" class="hidden" id="restart">
-		<h3><a href="quiz.html">Take the Quiz Again!</a></h3>
+	<div class="row">
+		<div class="col-6 hidden js-restart">
+				<h3><button class="js-restart-button">Take the Quiz Again!</button></h3>
+		</div>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.0.0.js"></script>
 	<script src="app.js"></script>

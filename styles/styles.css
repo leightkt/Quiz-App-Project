@@ -1,12 +1,86 @@
-.question {
-  display: block;
-  color: grey;
-  font-style: italic;
-  font-size: 20px;
-  border: 1px solid grey;
+.answer {
+	margin: auto;
+	color: white;
+	font-size: 20px;
+	text-align: center;
+}
+
+body {
+	background-color: black;
+	background-image: url("pictures/drake-bw-background.jpg");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+
+button:focus {
+	background-color: white;
+}
+
+button:hover {
+	background-color: white; 
 }
 
 .hidden {
   display: none;
 
 }
+
+fieldset {
+	margin: 0px, auto;
+}
+
+footer {
+	display: block;
+	margin: 3em, auto;
+	text-align: center;
+	color: white;
+	font-family: 'Inconsolata', monospace;
+	font-size: 40px;
+}
+
+h1 {
+	font-size: 50px;
+}
+
+h2 {
+	font-size: 40px;
+}
+
+header {
+	border: 10px, solid, white;
+	color: white;
+	font-family: 'Inconsolata', monospace;
+	text-align: center;
+	padding-bottom: 25px;
+}
+
+input {
+	margin: 5px;
+	padding: 5px;
+}
+
+
+.question {
+  margin: 0px, auto;
+  text-align: center;
+  color: white;
+  font-style: italic;
+  font-size: 20px;
+}
+
+main {
+	    position: relative; 
+	    z-index: 1; 
+	    text-align: center;
+	    margin: auto;  
+	    max-width: 80%; 
+	    padding-left: 4.0em; 
+	    padding-right: 4.0em; 
+	    padding-top: 2.0em;
+	    padding-bottom: 8.0em; 
+	    background-color: rgba(247, 247, 247, 0.5); 
+	}
+ 
+.check-answer {
+ 	margin-top: 25px;
+ }
