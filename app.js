@@ -90,6 +90,8 @@ var restartQuiz = function(){
 	$(".js-restart").addClass("hidden");
 	$("#js-answer-alert").empty();
 	$("footer").empty();
+	state.scoreInfo.correct = 0;
+	state.scoreInfo.incorrect = 0;
 }
 
 var renderAnswers = function(state, i){
