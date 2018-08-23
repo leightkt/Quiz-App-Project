@@ -86,6 +86,7 @@ function answerAlert(wasItRight, checkAgainst, state, i){
 	$("#js-answer-alert").empty();
 	$("#js-answer-alert").removeClass("hidden");
 	$("#js-quiz-main").addClass("hidden");
+	$("footer").addClass("hidden");
 	var buttonHTML = answerButton(state, i);
 	if (wasItRight === true) {
 		$("#js-answer-alert").append(
@@ -165,6 +166,7 @@ function continueIt () {
 		event.preventDefault();
 		$("#js-answer-alert").addClass("hidden");
 		$("#js-quiz-main").removeClass("hidden");
+		$('footer').removeClass("hidden");
 	});
 }
 
@@ -173,6 +175,7 @@ function viewFinalScore () {
 		event.preventDefault();
 		$("#js-answer-alert").empty();
 		$('footer').addClass("final");
+		$('footer').removeClass("hidden");
 		$('main').addClass("hidden");
 	});
 }
