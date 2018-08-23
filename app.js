@@ -30,108 +30,32 @@ var state = {
 		rightAnswer: "champagnepapi"
 	}
 	]
-};
-
-var noSkippy = function(answer) {
-	if (!answer) {
-		$("#js-answer-alert").empty().append(
-			"<h4>Please select an answer to continue</h4>"
-			);
-
-		return false;
-	} else {
-		return true;
-	}
-};
-
-var answerAlert = function(wasItRight, checkAgainst){
-	$("#js-answer-alert").empty();
-	if (wasItRight === true) {
-		$("#js-answer-alert").append(
-			"<h4>Congrats! That was the correct answer!</h4>"
-			);
-	} else {
-
-		$("#js-answer-alert").append(
-			"<h4>Sorry! The correct answer is "+checkAgainst+"</h4>"
-			);
-	}
 }
 
-var updateCorrectTotals = function(checkAgainst, answer, state){
-	if (answer === checkAgainst) {
-		var wasItRight = true;
-		state.scoreInfo.correct += 1; 
-	} else {
-		var wasItRight = false;
-		state.scoreInfo.incorrect += 1;
-	}
-	return wasItRight;
-};
-
-var questionValidate = function(answer, divId, state, i){
-	var checkAgainst = state.questions[i].rightAnswer;
-	var wasItRight = updateCorrectTotals(checkAgainst, answer, state);
-	answerAlert(wasItRight, checkAgainst);
-	console.log(state);
-};
-
-
-var startDaQuiz = function(){
-	$(".js-start").addClass("hidden");
-	$("main").removeClass("hidden");
-	$("#js-quiz-main").removeClass("hidden");
-}
-
-var restartQuiz = function(){
-	$(".js-start").removeClass("hidden");
-	$("#js-quiz-main").addClass("hidden");
-	$("main").addClass("hidden");
-	$(".js-restart").addClass("hidden");
-	$("#js-answer-alert").empty();
-	$("footer").empty();
-	state.scoreInfo.correct = 0;
-	state.scoreInfo.incorrect = 0;
-}
-
-var renderAnswers = function(state, i){
+function renderAnswers(state, i){
 	var inputHTML = "";
 	state.questions[i].answers.forEach(function(answer) {
-		inputHTML += '<input type="radio" name="currentQuestion" value="'+answer+'"><label>'+answer+'</label><br>';
+		inputHTML += '<input type="radio" name="currentQuestion" value="'+answer+'" required><label>'+answer+'</label><br>';
 	});
-	console.log(inputHTML);
 	return inputHTML;
 }
 
-var renderQuestions = function(state, element, i){
+function renderQuestions(state, element, i){
 	if (i < state.questions.length){
 		answerHTML = renderAnswers(state, i);
 	var itemsHTML = 
-			'<div class="col-12 question" id=' + i +'>\
-       			<fieldset id=' + i + '>\
-       			<h3>'+ state.questions[i].text + '</h3>'
+       			'<fieldset class="col-12 question" id=' + i + '>\
+       			<legend>'+ state.questions[i].text + '</legend>'
        			+answerHTML+
-       			'<button type="submit" class="js-check-answer check-answer">Check Answer</button>\
-				</fieldset>\
-				</div>';
+       			'<input type="submit" class="js-check-answer check-answer" value="Check Answer">\
+				</fieldset>';
     element.html(itemsHTML);
 	} else {
 		$("#drakeQuestions").empty();
-		$(".js-restart").removeClass("hidden");
 	}
-};
+}
 
-var nextQuestionAppear = function(answer, divId, state, i){
-	var checkIt = noSkippy(answer);
-	if (checkIt === true) {
-		questionValidate(answer, divId, state, i);
-		i += 1; 
-		renderQuestions(state, $('#drakeQuestions'), i);
-		footerInfo(state, $('footer'), (i+1));
-	}
-};
-
-var footerInfo = function (state, element, i) {
+function footerInfo(state, element, i) {
 		var numCorrect = state.scoreInfo.correct; 
 		var numIncorrect = state.scoreInfo.incorrect; 
 		var numQuestion = i; 
@@ -141,15 +65,83 @@ var footerInfo = function (state, element, i) {
 					<h4>'+ numCorrect + ' Correct | ' + numIncorrect + ' Incorrect</h4>';
 		} else {
 			var scoreHTML = '<h4>Your Final Score Is:\
-							<h4>'+ numCorrect + ' Correct | ' + numIncorrect + ' Incorrect</h4>';
+							<h4>'+ numCorrect + ' Correct | ' + numIncorrect + ' Incorrect</h4>\
+							<button role="button" class="js-restart-button restart-button">Take the Quiz Again!</button>';
 		};
 		element.html(scoreHTML);
-};
+}
 
+function answerButton(state, i){
+	if (i < state.questions.length-1) {
+			var buttonHTML = '<button role="button" class="js-continue">Next Question</button>';
+		} else {
+			var buttonHTML = '<button role="button" class="js-final-score final-score">See Your Final Score</button>';
+		};
+	return buttonHTML;
+}
+
+//fix this shit
+
+function answerAlert(wasItRight, checkAgainst, state, i){
+	$("#js-answer-alert").empty();
+	$("#js-answer-alert").removeClass("hidden");
+	$("#js-quiz-main").addClass("hidden");
+	var buttonHTML = answerButton(state, i);
+	if (wasItRight === true) {
+		$("#js-answer-alert").append(
+			'<h4>Congrats! That was the correct answer!</h4>'
+			+buttonHTML);
+	} else {
+		$("#js-answer-alert").append(
+			'<h4>Sorry! The correct answer is '+checkAgainst+'</h4>'
+			+buttonHTML);
+	}
+}
+
+
+function updateCorrectTotals(checkAgainst, answer, state){
+	if (answer === checkAgainst) {
+		var wasItRight = true;
+		state.scoreInfo.correct += 1; 
+	} else {
+		var wasItRight = false;
+		state.scoreInfo.incorrect += 1;
+	}
+	return wasItRight;
+}
+
+function questionValidate(answer, divId, state, i){
+	var checkAgainst = state.questions[i].rightAnswer;
+	var wasItRight = updateCorrectTotals(checkAgainst, answer, state);
+	answerAlert(wasItRight, checkAgainst, state, i);
+}
+
+
+function startDaQuiz(){
+	$(".js-start").addClass("hidden");
+	$("main").removeClass("hidden");
+}
+
+function restartQuiz(){
+	$("footer").removeClass("final");
+	$(".js-start").removeClass("hidden");
+	$("#js-quiz-main").removeClass("hidden");
+	$("#js-answer-alert").empty();
+	$("footer").empty();
+	state.scoreInfo.correct = 0;
+	state.scoreInfo.incorrect = 0;
+}
+
+function nextQuestionAppear(answer, divId, state, i){
+		questionValidate(answer, divId, state, i);
+		i += 1; 
+		renderQuestions(state, $('#drakeQuestions'), i);
+		footerInfo(state, $('footer'), (i+1));
+}
 
 //event listeners
 function startQuiz(){
-	$(document).on('click', 'button.js-start', function(){
+	$('header').on('click', 'button.js-start', function(){
 		event.preventDefault();
 		startDaQuiz();
 		var i = 0; 
@@ -159,26 +151,46 @@ function startQuiz(){
 }
 
 function checkAnswer(){
-	$(document).on('click', 'button.js-check-answer', function(){
+	$('form').submit(function(event) {
 		event.preventDefault();
-		var answer = $(this).closest("fieldset").find(":radio:checked").val();
-		var divId = $(this).closest("div").attr("id");
-		var i = parseInt($(this).closest("div").attr("id"));
+		var answer = $('fieldset').find(":radio:checked").val();
+		var divId = $('fieldset').attr("id");
+		var i = parseInt(divId);
 		nextQuestionAppear(answer, divId, state, i);
 	});
 }
 
+function continueIt () {
+	$('main').on('click', 'button.js-continue', function(){
+		event.preventDefault();
+		$("#js-answer-alert").addClass("hidden");
+		$("#js-quiz-main").removeClass("hidden");
+	});
+}
+
+function viewFinalScore () {
+	$('main').on('click', 'button.js-final-score', function(){
+		event.preventDefault();
+		$("#js-answer-alert").empty();
+		$('footer').addClass("final");
+		$('main').addClass("hidden");
+	});
+}
+
 function restartIt () {
-	$(document).on('click', 'button.js-restart-button', function(){
+	$('footer').on('click', 'button.js-restart-button', function(){
 		event.preventDefault();
 		restartQuiz();
 	});
 }
 
-
+$(function(){
 startQuiz();
 checkAnswer();
+continueIt();
+viewFinalScore();
 restartIt();
+});
 
 
 

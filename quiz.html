@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<title>Katlyn's Drake Quiz</title>
 	<meta charset="utf-8" name="description" content="a Drake Quiz">
@@ -9,34 +9,25 @@
 	<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
 </head>
 <body>
-	<header class="row">
+	<header class="row" role="banner">
 		<h1>Welcome to the Drake Quiz!<h1>
 		<h2 class="js-start">Click Here to Start Quiz:</h2>
 		<button type="submit" id="js-start-quiz" class="js-start">Start Quiz</button>
 	</header>
-	<main class="hidden">
-		<div class="row">
+	<main class="hidden" role="main">
+		<section class="row">
 			<div class="col-12 answer" id="js-answer-alert">
 			</div>
-		</div>
-		<div class="row">
-			<div class="hidden col-12" id="js-quiz-main">
-				<form action="" id="drakeQuestions">			
+		</section>
+		<section class="row">
+			<div class="col-12" id="js-quiz-main">
+				<form action="" id="drakeQuestions" role="form">			
 				</form>
 			</div>
-		</div>
+		</section>
 	</main>
-	<div class="row">
-		<div class="col-12">
-			<footer>
-			</footer>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-12 hidden js-restart">
-				<button class="js-restart-button restart-button">Take the Quiz Again!</button>
-		</div>
-	</div>
+		<footer class="col-12">
+		</footer>
 	<script src="https://code.jquery.com/jquery-3.0.0.js"></script>
 	<script src="app.js"></script>
 </body>

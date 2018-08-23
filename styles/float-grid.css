@@ -50,6 +50,46 @@
   width: 100%;
 }
 
+@media only screen and (max-width: 640px) {
+
+button {
+  font-size: 3vw;
+  height: 10vw;
+  width: 25vw;
+}
+
+fieldset {
+  font-size: 4vw;
+}
+
+.final-score {
+  height: 10vw;
+}
+
+h4 {
+  font-size: 4vw;
+}
+
+input[type='submit'] {
+  font-size: 3vw;
+  height: 10vw;
+  width: 25vw;
+}
+
+legend {
+  font-size: 4vw;
+}
+
+main {
+  max-width: 90%;
+}
+
+.restart-button {
+  height: 10vw;
+}
+
+
+}
 
 /* Non-mobile, grid */
 @media only screen and (min-width: 640px) {
