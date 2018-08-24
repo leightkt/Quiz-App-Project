@@ -23,7 +23,7 @@ button {
 	font-family: 'Inconsolata', monospace;
 	font-size: 2vw; 
 	height: 6vw;
-	padding: 3vw;
+	text-align: center;
 	width: 20vw;
 
 }
@@ -96,7 +96,6 @@ input[type='submit'] {
 	font-family: 'Inconsolata', monospace;
 	font-size: 2vw; 
 	height: 6vw;
-	padding: 3vw;
 	width: 20vw;
 }
 

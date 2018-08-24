@@ -80,8 +80,6 @@ function answerButton(state, i){
 	return buttonHTML;
 }
 
-//fix this shit
-
 function answerAlert(wasItRight, checkAgainst, state, i){
 	$("#js-answer-alert").empty();
 	$("#js-answer-alert").removeClass("hidden");
@@ -187,13 +185,15 @@ function restartIt () {
 	});
 }
 
-$(function(){
+function masterFunction () {
 startQuiz();
 checkAnswer();
 continueIt();
 viewFinalScore();
 restartIt();
-});
+};
+
+masterFunction();
 
 
 
